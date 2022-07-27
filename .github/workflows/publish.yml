@@ -84,3 +84,27 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: cosign sign ${{ steps.meta.outputs.tags }}@${{ steps.build-and-push.outputs.digest }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    strategy:
+      matrix:
+        environment: [local, test, prod]
+        steps:
+          - uses: azure/login@v1
+            with:
+              client-id: ${{ secrets.AZURE_CLIENT_ID }}
+              tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+              subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+          - name: Azure CLI script
+            shell: pwsh
+            run: |
+              az storage blob upload -f nginx.conf -c frontdoor -n nginx.conf
+
+          - name: logout
+            shell: pwsh
+            run: |
+              az logout
+              
