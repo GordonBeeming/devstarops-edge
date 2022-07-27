@@ -86,11 +86,12 @@ jobs:
         run: cosign sign ${{ steps.meta.outputs.tags }}@${{ steps.build-and-push.outputs.digest }}
 
   deploy:
-    runs-on: ubuntu-latest
     continue-on-error: false
     strategy:
       matrix:
         environment: [local, test, prod]
+    runs-on: ubuntu-latest
+    environment: ${{ matrix.environment }}
     steps:
       - uses: azure/login@v1
         with:
