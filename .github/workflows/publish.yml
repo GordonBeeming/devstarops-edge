@@ -102,13 +102,17 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Azure CLI script
-        shell: pwsh
-        run: |
-          az storage blob upload -f nginx.conf -c frontdoor -n nginx.conf
+      - name: Upload Files
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.36.0
+          inlineScript: |
+            az storage blob upload -f nginx.conf -c frontdoor -n nginx.conf
 
       - name: logout
-        shell: pwsh
-        run: |
-          az logout
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.36.0
+          inlineScript: |
+            az logout
           
