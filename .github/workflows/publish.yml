@@ -92,6 +92,8 @@ jobs:
         environment: [local, test, prod]
     runs-on: ubuntu-latest
     environment: ${{ matrix.environment }}
+    permissions:
+      id-token: write
     steps:
       - uses: azure/login@v1
         with:
