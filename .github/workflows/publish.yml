@@ -91,20 +91,20 @@ jobs:
     strategy:
       matrix:
         environment: [local, test, prod]
-        steps:
-          - uses: azure/login@v1
-            with:
-              client-id: ${{ secrets.AZURE_CLIENT_ID }}
-              tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-              subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    steps:
+      - uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-          - name: Azure CLI script
-            shell: pwsh
-            run: |
-              az storage blob upload -f nginx.conf -c frontdoor -n nginx.conf
+      - name: Azure CLI script
+        shell: pwsh
+        run: |
+          az storage blob upload -f nginx.conf -c frontdoor -n nginx.conf
 
-          - name: logout
-            shell: pwsh
-            run: |
-              az logout
-              
+      - name: logout
+        shell: pwsh
+        run: |
+          az logout
+          
