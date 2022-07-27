@@ -110,7 +110,7 @@ jobs:
         with:
           azcliversion: 2.36.0
           inlineScript: |
-            az storage blob upload --account-name dso${{ matrix.environment }}storage --file nginx.conf --container-name frontdoor --name nginx.conf
+            az storage blob upload --account-name dso${{ matrix.environment }}storage --file nginx.conf --container-name frontdoor --name nginx.conf --overwrite
 
       - name: logout
         uses: azure/CLI@v1
@@ -118,5 +118,4 @@ jobs:
           azcliversion: 2.36.0
           inlineScript: |
             az logout
-          
           
